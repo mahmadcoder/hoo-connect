@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* ── Design tokens ────────────────────────────────────────────── */
+@theme inline {
+  /* Colors */
+  --color-ink:      #0A0A0B;
+  --color-paper:    #F3F1EC;
+  --color-signal:   #FF3D6E;
+  --color-graphite: #17171A;
+  --color-mist:     #8A8A92;
+
+  /* Fonts – populated via CSS variables set in layout */
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-body:    var(--font-inter), sans-serif;
+}
+
+/* ── Base reset ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-ink);
+}
