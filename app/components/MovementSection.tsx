@@ -5,10 +5,22 @@ import Image from "next/image";
 
 export default function MovementSection() {
   useEffect(() => {
-    import("gsap").then(({ gsap }) => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        gsap.registerPlugin(ScrollTrigger);
+    if (typeof window === "undefined") return;
+
+    const hasReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (hasReducedMotion) {
+      import("gsap").then(({ gsap }) => {
+        gsap.set([".animate-movement-grid", ".animate-movement-sub"], { opacity: 1, y: 0 });
+      });
+      return;
+    }
+
+    let ctx: any;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
         
+        // Stagger fade-in section card
         gsap.fromTo(
           ".animate-movement-grid",
           { opacity: 0, y: 40, scale: 0.98 },
@@ -21,10 +33,12 @@ export default function MovementSection() {
             scrollTrigger: {
               trigger: ".animate-movement-grid",
               start: "top 85%",
+              toggleActions: "play none none none"
             },
           }
         );
 
+        // Stagger fade-in sub copy
         gsap.fromTo(
           ".animate-movement-sub",
           { opacity: 0, y: 30 },
@@ -36,11 +50,61 @@ export default function MovementSection() {
             scrollTrigger: {
               trigger: ".animate-movement-sub",
               start: "top 85%",
+              toggleActions: "play none none none"
             },
           }
         );
+
+        // Scroll-driven scrub parallax for column photo strips
+        gsap.fromTo(
+          ".animate-movement-col-left",
+          { y: 20 },
+          {
+            y: -20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".animate-movement-grid",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            }
+          }
+        );
+        gsap.fromTo(
+          ".animate-movement-col-center",
+          { y: -30 },
+          {
+            y: 30,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".animate-movement-grid",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            }
+          }
+        );
+        gsap.fromTo(
+          ".animate-movement-col-right",
+          { y: 20 },
+          {
+            y: -20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".animate-movement-grid",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            }
+          }
+        );
+
       });
     });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (
@@ -52,7 +116,7 @@ export default function MovementSection() {
           
           {/* Three-column photo strip */}
           <div className="grid grid-cols-3 divide-x divide-white/5 opacity-55">
-            <div className="relative h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden group">
+            <div className="relative animate-movement-col-left h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden group">
               <Image
                 src="/loop_community_1.png"
                 alt="Loop community member"
@@ -61,7 +125,7 @@ export default function MovementSection() {
                 sizes="33vw"
               />
             </div>
-            <div className="relative h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden group">
+            <div className="relative animate-movement-col-center h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden group">
               <Image
                 src="/loop_community_2.png"
                 alt="Loop community member"
@@ -70,7 +134,7 @@ export default function MovementSection() {
                 sizes="33vw"
               />
             </div>
-            <div className="relative h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden group">
+            <div className="relative animate-movement-col-right h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden group">
               <Image
                 src="/loop_community_3.png"
                 alt="Loop community member"

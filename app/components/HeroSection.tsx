@@ -28,18 +28,73 @@ export default function HeroSection() {
   const [isAvailable, setIsAvailable] = useState(false);
   const [dbCount, setDbCount] = useState(0);
   const [submitError, setSubmitError] = useState("");
+  const [countDisplay, setCountDisplay] = useState(5000);
 
-  // GSAP loading animations
+  // GSAP loading animations, parallax, and scrub effects
   useEffect(() => {
-    import("gsap").then(({ gsap }) => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.8 } });
-      tl.fromTo(".animate-hero-badge", { opacity: 0, y: 20 }, { opacity: 1, y: 0 })
-        .fromTo(".animate-hero-title", { opacity: 0, y: 25 }, { opacity: 1, y: 0 }, "-=0.55")
-        .fromTo(".animate-hero-desc", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
-        .fromTo(".animate-hero-form", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
-        .fromTo(".animate-hero-proof", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
-        .fromTo(".animate-hero-phone", { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, ease: "back.out(1.15)" }, "-=0.75");
+    if (typeof window === "undefined") return;
+
+    const hasReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (hasReducedMotion) {
+      import("gsap").then(({ gsap }) => {
+        gsap.set([".animate-hero-badge", ".animate-hero-title", ".animate-hero-desc", ".animate-hero-form", ".animate-hero-proof", ".animate-hero-phone"], { opacity: 1 });
+      });
+      return;
+    }
+
+    let ctx: any;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.8 } });
+        tl.fromTo(".animate-hero-badge", { opacity: 0, y: 20 }, { opacity: 1, y: 0 })
+          .fromTo(".animate-hero-title", { opacity: 0, y: 25 }, { opacity: 1, y: 0 }, "-=0.55")
+          .fromTo(".animate-hero-desc", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
+          .fromTo(".animate-hero-form", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
+          .fromTo(".animate-hero-proof", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
+          .fromTo(".animate-hero-phone", { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, ease: "back.out(1.15)" }, "-=0.75");
+
+        // Parallax background glows
+        gsap.to(".animate-hero-glow-1", {
+          yPercent: -20,
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          }
+        });
+        gsap.to(".animate-hero-glow-2", {
+          yPercent: 20,
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          }
+        });
+
+        // Parallax phone wrapper
+        gsap.fromTo(
+          ".animate-hero-phone-wrap",
+          { y: 0 },
+          {
+            y: -50,
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#hero",
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            }
+          }
+        );
+      });
     });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   // Fetch dynamic count from Supabase on mount
@@ -58,6 +113,42 @@ export default function HeroSection() {
     }
     fetchCount();
   }, []);
+
+  // Numeric animated counter for waitlist creators
+  useEffect(() => {
+    if (typeof window === "undefined" || dbCount === 0) return;
+
+    const hasReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (hasReducedMotion) {
+      setCountDisplay(5000 + dbCount);
+      return;
+    }
+
+    let ctx: any;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
+        const counterObj = { val: 0 };
+        gsap.to(counterObj, {
+          val: 5000 + dbCount,
+          duration: 2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".animate-hero-proof",
+            start: "top 95%",
+            toggleActions: "play none none none",
+          },
+          onUpdate: () => {
+            setCountDisplay(Math.floor(counterObj.val));
+          }
+        });
+      });
+    });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
+  }, [dbCount]);
 
   // Real-time handle validation in Supabase
   useEffect(() => {
@@ -176,8 +267,8 @@ export default function HeroSection() {
       className="relative min-h-screen pb-16 pt-32 md:pt-28 flex items-center bg-[#040C0A]"
     >
       {/* Background ambient glows */}
-      <div className="pointer-events-none absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-signal/10 blur-[130px] animate-pulse-glow" style={{ animationDelay: "0s" }} />
-      <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[600px] w-[600px] rounded-full bg-emerald-500/5 blur-[160px] animate-pulse-glow" style={{ animationDelay: "3s" }} />
+      <div className="pointer-events-none absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-signal/10 blur-[130px] animate-pulse-glow animate-hero-glow-1" style={{ animationDelay: "0s" }} />
+      <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[600px] w-[600px] rounded-full bg-emerald-500/5 blur-[160px] animate-pulse-glow animate-hero-glow-2" style={{ animationDelay: "3s" }} />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 md:px-10">
         {/* Hero Card Container */}
@@ -329,7 +420,7 @@ export default function HeroSection() {
                 </div>
                 <p className="text-xs text-paper/50">
                   <span className="font-display font-bold text-signal">
-                    {(5000 + dbCount).toLocaleString()}+
+                    {countDisplay.toLocaleString()}+
                   </span>{" "}
                   creators already in the loop
                 </p>
@@ -337,7 +428,7 @@ export default function HeroSection() {
             </div>
 
             {/* Right Column: Phone Mockup Container (Pure CSS Smartphone Mockup) */}
-            <div className="relative flex items-center justify-center p-8 bg-gradient-to-b from-transparent to-[#040C0A]/40 min-h-[460px] md:min-h-[520px]">
+            <div className="relative animate-hero-phone-wrap flex items-center justify-center p-8 bg-gradient-to-b from-transparent to-[#040C0A]/40 min-h-[460px] md:min-h-[520px]">
               {/* Radial glow behind phone */}
               <div className="pointer-events-none absolute bottom-1/2 translate-y-1/2 left-1/2 h-[260px] w-[260px] -translate-x-1/2 rounded-full bg-signal/10 blur-[60px]" />
               

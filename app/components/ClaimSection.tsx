@@ -76,10 +76,22 @@ export default function ClaimSection() {
   }, [handle]);
 
   useEffect(() => {
-    import("gsap").then(({ gsap }) => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        gsap.registerPlugin(ScrollTrigger);
+    if (typeof window === "undefined") return;
+
+    const hasReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (hasReducedMotion) {
+      import("gsap").then(({ gsap }) => {
+        gsap.set([".animate-claim-left", ".animate-claim-right"], { opacity: 1, x: 0 });
+      });
+      return;
+    }
+
+    let ctx: any;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
         
+        // Left Column Reveal
         gsap.fromTo(
           ".animate-claim-left",
           { opacity: 0, x: -35 },
@@ -91,10 +103,12 @@ export default function ClaimSection() {
             scrollTrigger: {
               trigger: ".animate-claim-left",
               start: "top 80%",
+              toggleActions: "play none none none"
             },
           }
         );
 
+        // Right Column Reveal
         gsap.fromTo(
           ".animate-claim-right",
           { opacity: 0, x: 35 },
@@ -106,11 +120,32 @@ export default function ClaimSection() {
             scrollTrigger: {
               trigger: ".animate-claim-right",
               start: "top 80%",
+              toggleActions: "play none none none"
             },
+          }
+        );
+
+        // Parallax Phone Mockup Scrub Scroll
+        gsap.fromTo(
+          ".animate-claim-phone-scroll",
+          { y: 35 },
+          {
+            y: -35,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".animate-claim-left",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            }
           }
         );
       });
     });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (
@@ -126,7 +161,7 @@ export default function ClaimSection() {
               <div className="pointer-events-none absolute inset-0 bg-radial-gradient from-signal/5 via-transparent to-transparent opacity-50" />
               
               {/* Styled Mock Phone */}
-              <div className="relative w-[240px] h-[460px] rounded-[2.5rem] border-[8px] border-[#0d2b25] bg-[#040C0A] shadow-2xl p-4 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 hover:shadow-[0_0_30px_rgba(157,255,196,0.15)]">
+              <div className="relative animate-claim-phone-scroll w-[240px] h-[460px] rounded-[2.5rem] border-[8px] border-[#0d2b25] bg-[#040C0A] shadow-2xl p-4 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 hover:shadow-[0_0_30px_rgba(157,255,196,0.15)]">
                 
                 {/* Phone Top Notch */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-28 bg-[#0d2b25] rounded-b-xl z-20" />

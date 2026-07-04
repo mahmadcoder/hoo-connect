@@ -29,10 +29,20 @@ const cards: AudienceCard[] = [
 
 export default function AudienceSection() {
   useEffect(() => {
-    import("gsap").then(({ gsap }) => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        gsap.registerPlugin(ScrollTrigger);
-        
+    if (typeof window === "undefined") return;
+
+    const hasReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (hasReducedMotion) {
+      import("gsap").then(({ gsap }) => {
+        gsap.set(".animate-audience-card", { opacity: 1, y: 0 });
+      });
+      return;
+    }
+
+    let ctx: any;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
         gsap.fromTo(
           ".animate-audience-card",
           { opacity: 0, y: 40 },
@@ -45,11 +55,16 @@ export default function AudienceSection() {
             scrollTrigger: {
               trigger: ".animate-audience-card",
               start: "top 85%",
+              toggleActions: "play none none none"
             },
           }
         );
       });
     });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (

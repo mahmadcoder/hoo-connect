@@ -65,10 +65,22 @@ const features: Feature[] = [
 
 export default function FeaturesSection() {
   useEffect(() => {
-    import("gsap").then(({ gsap }) => {
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        gsap.registerPlugin(ScrollTrigger);
+    if (typeof window === "undefined") return;
+
+    const hasReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (hasReducedMotion) {
+      import("gsap").then(({ gsap }) => {
+        gsap.set([".animate-feature-wrapper", ".animate-feature-phones", ".animate-feature-card"], { opacity: 1, y: 0 });
+      });
+      return;
+    }
+
+    let ctx: any;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      ctx = gsap.context(() => {
         
+        // Reveal main card wrapper
         gsap.fromTo(
           ".animate-feature-wrapper",
           { opacity: 0, y: 40 },
@@ -80,25 +92,29 @@ export default function FeaturesSection() {
             scrollTrigger: {
               trigger: ".animate-feature-wrapper",
               start: "top 85%",
+              toggleActions: "play none none none"
             },
           }
         );
         
+        // Scrub-driven animation for the phone previews stack
         gsap.fromTo(
           ".animate-feature-phones",
-          { opacity: 0, y: 35 },
+          { opacity: 0, y: 60 },
           {
             opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
+            y: -30,
+            ease: "none",
             scrollTrigger: {
-              trigger: ".animate-feature-phones",
-              start: "top 80%",
-            },
+              trigger: ".animate-feature-wrapper",
+              start: "top 95%",
+              end: "bottom 15%",
+              scrub: 1,
+            }
           }
         );
         
+        // Stagger bento cards
         gsap.fromTo(
           ".animate-feature-card",
           { opacity: 0, y: 25 },
@@ -111,11 +127,16 @@ export default function FeaturesSection() {
             scrollTrigger: {
               trigger: ".animate-feature-card",
               start: "top 85%",
+              toggleActions: "play none none none"
             },
           }
         );
       });
     });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (
