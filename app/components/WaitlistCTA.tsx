@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function WaitlistCTA() {
   const [submitted, setSubmitted] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     // Listen for waitlist updates from the Hero username card
@@ -21,10 +24,74 @@ export default function WaitlistCTA() {
     return () => window.removeEventListener("loopWaitlistJoined", handleSync);
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (fullName.trim() && email.trim()) {
-      setSubmitted(true);
+      setIsSubmitting(true);
+      setSubmitError("");
+      try {
+        // 1. Generate a clean unique handle from email prefix
+        const cleanEmail = email.trim().toLowerCase();
+        let baseHandle = cleanEmail.split("@")[0].replace(/[^a-z0-9_-]/g, "");
+        if (!baseHandle || baseHandle.length < 2) {
+          baseHandle = "member";
+        }
+        
+        let handleToSave = baseHandle;
+        let isUnique = false;
+        let attempts = 0;
+        
+        while (!isUnique && attempts < 5) {
+          const { data, error } = await supabase
+            .from("waitlist")
+            .select("handle")
+            .eq("handle", handleToSave)
+            .maybeSingle();
+            
+          if (error) {
+            console.error("Error checking unique handle:", error);
+            break;
+          }
+          if (!data) {
+            isUnique = true;
+          } else {
+            attempts++;
+            handleToSave = `${baseHandle}_${Math.random().toString(36).substring(2, 6)}`;
+          }
+        }
+
+        // 2. Insert user into Supabase
+        const { error } = await supabase
+          .from("waitlist")
+          .insert([
+            {
+              handle: handleToSave,
+              full_name: fullName.trim(),
+              email: cleanEmail,
+            },
+          ]);
+
+        if (error) {
+          console.error("Database insert error:", error);
+          if (error.code === "23505") { // Unique key constraint violation code
+            setSubmitError("This email address is already on the waitlist.");
+          } else {
+            setSubmitError("There was an error saving your reservation. Please try again.");
+          }
+        } else {
+          setSubmitted(true);
+          // Dispatch custom event to sync with other components
+          const event = new CustomEvent("loopWaitlistJoined", {
+            detail: { handle: handleToSave, fullName, email: cleanEmail }
+          });
+          window.dispatchEvent(event);
+        }
+      } catch (err) {
+        console.error(err);
+        setSubmitError("A connection error occurred. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   }
 
@@ -83,11 +150,18 @@ export default function WaitlistCTA() {
                     className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-5 py-4 text-sm text-paper placeholder:text-paper/30 focus:border-signal/50 focus:outline-none focus:ring-1 focus:ring-signal/20 transition duration-300"
                   />
                   
+                  {submitError && (
+                    <p className="text-xs text-rose-400 font-medium px-1 text-left">
+                      {submitError}
+                    </p>
+                  )}
+                  
                   <button
                     type="submit"
-                    className="mt-1 w-full cursor-pointer rounded-xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)]"
+                    disabled={isSubmitting}
+                    className="mt-1 w-full cursor-pointer rounded-xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)] disabled:opacity-50"
                   >
-                    Join The Waitlist
+                    {isSubmitting ? "Joining..." : "Join The Waitlist"}
                   </button>
                 </form>
               )}

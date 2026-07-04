@@ -1,12 +1,54 @@
+"use client";
+
+import { useEffect } from "react";
 import Image from "next/image";
 
 export default function MovementSection() {
+  useEffect(() => {
+    import("gsap").then(({ gsap }) => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        gsap.fromTo(
+          ".animate-movement-grid",
+          { opacity: 0, y: 40, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".animate-movement-grid",
+              start: "top 85%",
+            },
+          }
+        );
+
+        gsap.fromTo(
+          ".animate-movement-sub",
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".animate-movement-sub",
+              start: "top 85%",
+            },
+          }
+        );
+      });
+    });
+  }, []);
+
   return (
     <section className="bg-[#f0ede6] py-16 pb-28 md:py-24 md:pb-40">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         
         {/* Big Card Wrapper */}
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#071512] shadow-2xl border border-white/5">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#071512] shadow-2xl border border-white/5 animate-movement-grid opacity-0">
           
           {/* Three-column photo strip */}
           <div className="grid grid-cols-3 divide-x divide-white/5 opacity-55">
@@ -54,7 +96,7 @@ export default function MovementSection() {
         </div>
 
         {/* Sub-copy below the card */}
-        <div className="mx-auto mt-20 max-w-3xl text-center space-y-6">
+        <div className="mx-auto mt-20 max-w-3xl text-center space-y-6 animate-movement-sub opacity-0">
           <h3 className="font-display text-2xl font-bold leading-snug tracking-tight text-[#0d2b25] sm:text-3xl md:text-4xl">
             Careers don&rsquo;t look like they used to. <br className="hidden sm:inline" />
             Neither should your professional profile.

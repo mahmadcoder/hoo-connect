@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect } from "react";
+
 interface Feature {
   icon: React.ReactNode;
   title: string;
@@ -60,12 +64,66 @@ const features: Feature[] = [
 ];
 
 export default function FeaturesSection() {
+  useEffect(() => {
+    import("gsap").then(({ gsap }) => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        gsap.fromTo(
+          ".animate-feature-wrapper",
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".animate-feature-wrapper",
+              start: "top 85%",
+            },
+          }
+        );
+        
+        gsap.fromTo(
+          ".animate-feature-phones",
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".animate-feature-phones",
+              start: "top 80%",
+            },
+          }
+        );
+        
+        gsap.fromTo(
+          ".animate-feature-card",
+          { opacity: 0, y: 25 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.08,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".animate-feature-card",
+              start: "top 85%",
+            },
+          }
+        );
+      });
+    });
+  }, []);
+
   return (
     <section className="py-20 md:py-32 bg-[#f0ede6]">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         
         {/* Deep Green Card Wrapper */}
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#071512] shadow-[0_24px_60px_rgba(0,0,0,0.15)]">
+        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#071512] shadow-[0_24px_60px_rgba(0,0,0,0.15)] animate-feature-wrapper opacity-0">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1.3fr]">
             
             {/* Left Column: Elegant Heading and Copy */}
@@ -82,7 +140,7 @@ export default function FeaturesSection() {
             </div>
 
             {/* Center Column: Code-Rendered Custom Phone Stack Previews (No Cloned Screenshot Images!) */}
-            <div className="relative flex items-end justify-center px-6 py-12 lg:py-0 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#040C0A]/40 min-h-[380px] overflow-hidden select-none">
+            <div className="relative animate-feature-phones opacity-0 flex items-end justify-center px-6 py-12 lg:py-0 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#040C0A]/40 min-h-[380px] overflow-hidden select-none">
               {/* Radial background glow */}
               <div className="pointer-events-none absolute bottom-10 left-1/2 h-[200px] w-[200px] -translate-x-1/2 rounded-full bg-signal/5 blur-[60px]" />
               
@@ -165,7 +223,7 @@ export default function FeaturesSection() {
                 {features.map((f, i) => (
                   <div
                     key={i}
-                    className={`group relative overflow-hidden rounded-2xl border border-white/5 bg-[#ffffff]/[0.02] p-5 transition-all duration-300 hover:border-signal/20 hover:bg-[#ffffff]/[0.04] ${f.className}`}
+                    className={`group relative overflow-hidden rounded-2xl border border-white/5 bg-[#ffffff]/[0.02] p-5 transition-all duration-300 hover:border-signal/20 hover:bg-[#ffffff]/[0.04] animate-feature-card opacity-0 ${f.className}`}
                   >
                     <div className="flex items-start gap-4">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-signal/5 border border-signal/15 text-signal transition-transform duration-300 group-hover:scale-110 group-hover:bg-signal/10">

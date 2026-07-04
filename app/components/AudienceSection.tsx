@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import Image from "next/image";
 
 interface AudienceCard {
@@ -25,6 +28,30 @@ const cards: AudienceCard[] = [
 ];
 
 export default function AudienceSection() {
+  useEffect(() => {
+    import("gsap").then(({ gsap }) => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        gsap.fromTo(
+          ".animate-audience-card",
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".animate-audience-card",
+              start: "top 85%",
+            },
+          }
+        );
+      });
+    });
+  }, []);
+
   return (
     <section className="bg-[#f0ede6] py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -45,7 +72,7 @@ export default function AudienceSection() {
           {cards.map((c) => (
             <div
               key={c.label}
-              className="group relative overflow-hidden rounded-[2rem] bg-[#0d2b25] shadow-lg transition duration-500 hover:shadow-xl"
+              className="group animate-audience-card opacity-0 relative overflow-hidden rounded-[2rem] bg-[#0d2b25] shadow-lg transition duration-500 hover:shadow-xl"
             >
               {/* Photo Showcase */}
               <div className="relative aspect-[3/4.2] w-full overflow-hidden">

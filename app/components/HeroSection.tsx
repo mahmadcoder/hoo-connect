@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
 
 const avatars = [
   {
@@ -25,17 +26,79 @@ export default function HeroSection() {
   const [email, setEmail] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
+  const [dbCount, setDbCount] = useState(0);
+  const [submitError, setSubmitError] = useState("");
 
+  // GSAP loading animations
   useEffect(() => {
-    if (!handle) {
+    import("gsap").then(({ gsap }) => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.8 } });
+      tl.fromTo(".animate-hero-badge", { opacity: 0, y: 20 }, { opacity: 1, y: 0 })
+        .fromTo(".animate-hero-title", { opacity: 0, y: 25 }, { opacity: 1, y: 0 }, "-=0.55")
+        .fromTo(".animate-hero-desc", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
+        .fromTo(".animate-hero-form", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
+        .fromTo(".animate-hero-proof", { opacity: 0, y: 15 }, { opacity: 1, y: 0 }, "-=0.55")
+        .fromTo(".animate-hero-phone", { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, ease: "back.out(1.15)" }, "-=0.75");
+    });
+  }, []);
+
+  // Fetch dynamic count from Supabase on mount
+  useEffect(() => {
+    async function fetchCount() {
+      try {
+        const { count, error } = await supabase
+          .from("waitlist")
+          .select("*", { count: "exact", head: true });
+        if (!error && count !== null) {
+          setDbCount(count);
+        }
+      } catch (err) {
+        console.error("Error fetching waitlist count:", err);
+      }
+    }
+    fetchCount();
+  }, []);
+
+  // Real-time handle validation in Supabase
+  useEffect(() => {
+    if (!handle || handle.length < 2) {
       setIsAvailable(false);
+      setIsChecking(false);
       return;
     }
+
     setIsChecking(true);
-    const timer = setTimeout(() => {
-      setIsChecking(false);
-      setIsAvailable(true);
-    }, 400); // Simulate network check
+    
+    const timer = setTimeout(async () => {
+      try {
+        // Blacklist of system/reserved handles
+        const reservedHandles = ["admin", "support", "loop", "api", "login", "register", "waitlist", "dashboard", "feedback", "help"];
+        if (reservedHandles.includes(handle.toLowerCase())) {
+          setIsAvailable(false);
+          setIsChecking(false);
+          return;
+        }
+
+        const { data, error } = await supabase
+          .from("waitlist")
+          .select("handle")
+          .eq("handle", handle.toLowerCase())
+          .maybeSingle();
+
+        if (error) {
+          console.error("Error checking availability:", error);
+          setIsAvailable(false);
+        } else {
+          setIsAvailable(!data); // Available if no row matches
+        }
+      } catch (err) {
+        console.error(err);
+        setIsAvailable(false);
+      } finally {
+        setIsChecking(false);
+      }
+    }, 400);
+
     return () => clearTimeout(timer);
   }, [handle]);
 
@@ -46,15 +109,49 @@ export default function HeroSection() {
     }
   };
 
-  const handleFinalSubmit = (e: React.FormEvent) => {
+  const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (fullName.trim() && email.trim()) {
-      setStep(3);
-      // Dispatch custom event to sync with other claim widgets on the page
-      const event = new CustomEvent("loopWaitlistJoined", {
-        detail: { handle, fullName, email }
-      });
-      window.dispatchEvent(event);
+    if (fullName.trim() && email.trim() && handle.trim()) {
+      setIsChecking(true);
+      setSubmitError("");
+      try {
+        const { error } = await supabase
+          .from("waitlist")
+          .insert([
+            {
+              handle: handle.toLowerCase(),
+              full_name: fullName.trim(),
+              email: email.trim().toLowerCase(),
+            },
+          ]);
+
+        if (error) {
+          console.error("Database insert error:", error);
+          if (error.code === "23505") { // Unique key constraint violation code
+            if (error.message.includes("email")) {
+              setSubmitError("This email address is already on the waitlist.");
+            } else {
+              setSubmitError("This handle is already reserved.");
+            }
+          } else {
+            setSubmitError("There was an error saving your reservation. Please try again.");
+          }
+        } else {
+          setStep(3);
+          setDbCount((prev) => prev + 1); // Locally increment count
+          
+          // Dispatch custom event to sync with other waitlist/claim widgets on the page
+          const event = new CustomEvent("loopWaitlistJoined", {
+            detail: { handle, fullName, email }
+          });
+          window.dispatchEvent(event);
+        }
+      } catch (err) {
+        console.error(err);
+        setSubmitError("A connection error occurred. Please try again.");
+      } finally {
+        setIsChecking(false);
+      }
     }
   };
 
@@ -75,7 +172,7 @@ export default function HeroSection() {
             {/* Left Column: Headline, Subtitle, and Waitlist Flow */}
             <div className="flex flex-col justify-center gap-6 p-8 sm:p-12 md:p-14 lg:p-16">
               <div className="space-y-5">
-                <div className="inline-flex items-center gap-2 rounded-full border border-signal/25 bg-signal/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-signal">
+                <div className="inline-flex animate-hero-badge opacity-0 items-center gap-2 rounded-full border border-signal/25 bg-signal/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-signal">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-75"></span>
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-signal"></span>
@@ -83,18 +180,18 @@ export default function HeroSection() {
                   Early Access &bull; Reserve Your Handle
                 </div>
 
-                <h1 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-paper sm:text-5xl lg:text-6xl">
+                <h1 className="animate-hero-title opacity-0 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-paper sm:text-5xl lg:text-6xl">
                   It&rsquo;s not just who you know.<br />
                   <span className="bg-gradient-to-r from-signal via-[#75ff9f] to-[#40ffcf] bg-clip-text text-transparent">It&rsquo;s how you show it.</span>
                 </h1>
 
-                <p className="max-w-md text-sm sm:text-base leading-relaxed text-paper/70">
+                <p className="animate-hero-desc opacity-0 max-w-md text-sm sm:text-base leading-relaxed text-paper/70">
                   The next-generation space designed to showcase who you are, what you&rsquo;re building, and where you&rsquo;re going.
                 </p>
               </div>
 
               {/* Dynamic reservation form steps */}
-              <div className="w-full max-w-md py-2">
+              <div className="animate-hero-form opacity-0 w-full max-w-md py-2">
                 {step === 1 && (
                   <form onSubmit={handleUsernameSubmit} className="space-y-4">
                     <div className="relative flex items-center rounded-2xl border border-white/10 bg-white/[0.03] p-1.5 focus-within:border-signal/50 focus-within:ring-1 focus-within:ring-signal/20 transition duration-300">
@@ -133,7 +230,11 @@ export default function HeroSection() {
                           <span className="text-signal font-medium animate-fade-in flex items-center gap-1">
                             <span className="text-base leading-none">✦</span> loop.me/{handle} is available! Reserve now.
                           </span>
-                        ) : null}
+                        ) : (
+                          <span className="text-rose-400 font-medium animate-fade-in flex items-center gap-1">
+                            <span className="text-base leading-none">✦</span> loop.me/{handle} is taken or restricted.
+                          </span>
+                        )}
                       </div>
                     )}
                   </form>
@@ -160,6 +261,11 @@ export default function HeroSection() {
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm text-paper placeholder:text-paper/30 focus:border-signal/50 focus:outline-none focus:ring-1 focus:ring-signal/20 transition duration-300"
                     />
+                    {submitError && (
+                      <p className="text-xs text-rose-400 font-medium px-1">
+                        {submitError}
+                      </p>
+                    )}
                     <div className="flex gap-2.5 pt-1">
                       <button
                         type="button"
@@ -170,9 +276,10 @@ export default function HeroSection() {
                       </button>
                       <button
                         type="submit"
-                        className="w-2/3 cursor-pointer rounded-xl bg-signal py-3.5 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)]"
+                        disabled={isChecking}
+                        className="w-2/3 cursor-pointer rounded-xl bg-signal py-3.5 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)] disabled:opacity-50"
                       >
-                        Lock in @{handle}
+                        {isChecking ? "Submitting..." : `Lock in @${handle}`}
                       </button>
                     </div>
                   </form>
@@ -191,7 +298,7 @@ export default function HeroSection() {
               </div>
 
               {/* Social Proof */}
-              <div className="flex items-center gap-4 border-t border-white/5 pt-5">
+              <div className="flex animate-hero-proof opacity-0 items-center gap-4 border-t border-white/5 pt-5">
                 <div className="flex -space-x-2.5">
                   {avatars.map((a, i) => (
                     <div key={i} className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-[#071512]">
@@ -206,7 +313,10 @@ export default function HeroSection() {
                   ))}
                 </div>
                 <p className="text-xs text-paper/50">
-                  <span className="font-display font-bold text-signal">5,000+</span> creators already in the loop
+                  <span className="font-display font-bold text-signal">
+                    {(5000 + dbCount).toLocaleString()}+
+                  </span>{" "}
+                  creators already in the loop
                 </p>
               </div>
             </div>
@@ -217,7 +327,7 @@ export default function HeroSection() {
               <div className="pointer-events-none absolute bottom-1/2 translate-y-1/2 left-1/2 h-[260px] w-[260px] -translate-x-1/2 rounded-full bg-signal/10 blur-[60px]" />
               
               {/* Pure CSS smartphone frame */}
-              <div className="relative w-[210px] h-[420px] sm:w-[230px] sm:h-[460px] lg:w-[260px] lg:h-[520px] rounded-[2.2rem] lg:rounded-[2.5rem] border-[6px] lg:border-[8px] border-[#0d2b25] bg-[#040C0A] shadow-[0_24px_80px_rgba(0,0,0,0.9)] p-5 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 group">
+              <div className="relative animate-hero-phone opacity-0 w-[210px] h-[420px] sm:w-[230px] sm:h-[460px] lg:w-[260px] lg:h-[520px] rounded-[2.2rem] lg:rounded-[2.5rem] border-[6px] lg:border-[8px] border-[#0d2b25] bg-[#040C0A] shadow-[0_24px_80px_rgba(0,0,0,0.9)] p-5 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 group">
                 
                 {/* Phone Top Notch */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 h-3.5 w-24 sm:w-28 sm:h-4 bg-[#0d2b25] rounded-b-xl z-20" />
