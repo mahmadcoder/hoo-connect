@@ -85,6 +85,21 @@ export default function WaitlistCTA() {
             detail: { handle: handleToSave, fullName, email: cleanEmail }
           });
           window.dispatchEvent(event);
+
+          // Trigger server-side welcome and admin alert emails
+          try {
+            await fetch("/api/send-confirmation", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: cleanEmail,
+                fullName: fullName.trim(),
+                handle: handleToSave,
+              }),
+            });
+          } catch (emailErr) {
+            console.error("Failed to send confirmation email:", emailErr);
+          }
         }
       } catch (err) {
         console.error(err);

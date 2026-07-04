@@ -145,6 +145,21 @@ export default function HeroSection() {
             detail: { handle, fullName, email }
           });
           window.dispatchEvent(event);
+
+          // Trigger server-side welcome and admin alert emails
+          try {
+            await fetch("/api/send-confirmation", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: email.trim().toLowerCase(),
+                fullName: fullName.trim(),
+                handle: handle.toLowerCase(),
+              }),
+            });
+          } catch (emailErr) {
+            console.error("Failed to send confirmation email:", emailErr);
+          }
         }
       } catch (err) {
         console.error(err);
