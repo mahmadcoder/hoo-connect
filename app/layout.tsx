@@ -15,9 +15,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "HOO — Claim Your Profile | Waitlist",
+  title: "Loop — Claim Your Profile | Waitlist",
   description:
-    "HOO is the new way to show who you are, what you're building, and where you're going. One profile for ambitious people shaping culture in real time. Join the waitlist.",
+    "Loop is the new way to show who you are, what you're building, and where you're going. One profile for ambitious creators, founders, and developers. Join the waitlist.",
 };
 
 export default function RootLayout({

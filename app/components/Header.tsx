@@ -14,27 +14,32 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed z-50 transition-all duration-300 ${
+      className={`fixed z-50 transition-all duration-500 ${
         scrolled
-          ? "top-4 left-4 right-4 border border-white/10 bg-ink/70 shadow-lg backdrop-blur-xl rounded-2xl"
+          ? "top-4 left-4 right-4 border border-white/10 bg-[#040C0A]/85 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-md rounded-2xl"
           : "top-0 left-0 right-0 bg-transparent"
       }`}
     >
-      <div className={`mx-auto flex max-w-7xl items-center justify-between px-6 transition-all duration-300 ${
-        scrolled ? "py-3 md:px-8" : "py-5 md:px-10"
+      <div className={`mx-auto flex max-w-7xl items-center justify-between px-6 transition-all duration-500 ${
+        scrolled ? "py-3 md:px-8" : "py-6 md:px-10"
       }`}>
         <Link
           href="#"
-          className="font-display text-xl font-bold tracking-tight text-paper"
+          className="group flex items-center gap-2.5 transition duration-300 hover:opacity-90"
         >
-          hoo.
+          <svg viewBox="0 0 24 12" className="h-4.5 w-auto stroke-signal stroke-[2.5] fill-none transition duration-300 group-hover:scale-110" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 1c2.4 0 4.2 1.8 6 5 1.8 3.2 3.6 5 6 5s5-1.8 5-5-1.8-5-5-5c-2.4 0-4.2 1.8-6 5-1.8 3.2-3.6 5-6 5S1 9.2 1 6s1.8-5 5-5z" />
+          </svg>
+          <span className="font-display text-xl font-extrabold tracking-tight text-paper">
+            loop<span className="text-signal">.</span>
+          </span>
         </Link>
         <Link
           href="#waitlist"
-          className={`rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200 ${
+          className={`rounded-full border text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
             scrolled
-              ? "border-white/30 bg-white/10 text-paper backdrop-blur-md hover:border-signal hover:bg-signal hover:text-ink"
-              : "border-white/20 bg-white/5 text-paper backdrop-blur-md hover:border-signal hover:bg-signal hover:text-ink"
+              ? "border-signal/30 bg-signal/5 px-5 py-2.5 text-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_15px_rgba(157,255,196,0.4)]"
+              : "border-white/20 bg-white/5 px-6 py-3 text-paper hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_20px_rgba(157,255,196,0.3)]"
           }`}
         >
           Join The Waitlist
@@ -43,3 +48,4 @@ export default function Header() {
     </header>
   );
 }
+

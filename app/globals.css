@@ -3,11 +3,12 @@
 /* ── Design tokens ────────────────────────────────────────────── */
 @theme inline {
   /* Colors */
-  --color-ink:      #0A0A0B;
-  --color-paper:    #F3F1EC;
-  --color-signal:   #FF3D6E;
-  --color-graphite: #17171A;
-  --color-mist:     #8A8A92;
+  --color-ink:          #040C0A;
+  --color-paper:        #F3F1EC;
+  --color-signal:       #9DFFC4;
+  --color-signal-dim:   #2D7F54;
+  --color-graphite:     #121D1A;
+  --color-mist:         #6E827B;
 
   /* Fonts – populated via CSS variables set in layout */
   --font-display: var(--font-space-grotesk), sans-serif;
@@ -36,3 +37,57 @@ body {
   background: var(--color-signal);
   color: var(--color-ink);
 }
+
+/* ── Custom Animations ────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-15px) scale(1.05);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* ── Custom Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-graphite);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-signal-dim);
+}
+

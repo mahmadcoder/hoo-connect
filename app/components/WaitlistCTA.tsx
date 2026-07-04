@@ -1,61 +1,100 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function WaitlistCTA() {
   const [submitted, setSubmitted] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    // Listen for waitlist updates from the Hero username card
+    const handleSync = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail) {
+        setFullName(customEvent.detail.fullName || "");
+        setEmail(customEvent.detail.email || "");
+        setSubmitted(true);
+      }
+    };
+    window.addEventListener("loopWaitlistJoined", handleSync);
+    return () => window.removeEventListener("loopWaitlistJoined", handleSync);
+  }, []);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    if (fullName.trim() && email.trim()) {
+      setSubmitted(true);
+    }
   }
 
   return (
-    <section id="waitlist-cta" className="py-20 md:py-32">
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tight text-[#0d2b25] sm:text-6xl md:text-7xl">
-          CLAIM YOUR HOO.
-          <br />
-          JOIN THE WAITLIST.
-        </h2>
-        <p className="mt-6 text-base italic text-[#0d2b25]/60 sm:text-lg">
-          Early access for ambitious people shaping culture in real time.
-        </p>
+    <section id="waitlist-cta" className="py-20 md:py-32 bg-[#f0ede6]">
+      <div className="mx-auto max-w-4xl px-6">
+        
+        {/* Dark Emerald Container */}
+        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#071512] shadow-2xl p-8 sm:p-12 md:p-16 text-center relative">
+          {/* Ambient glow */}
+          <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[300px] w-[300px] rounded-full bg-signal/5 blur-[80px]" />
 
-        {submitted ? (
-          <div className="mx-auto mt-10 max-w-md rounded-2xl border border-[#0d2b25]/20 bg-[#0d2b25]/5 px-8 py-6 text-center">
-            <p className="font-display text-lg font-bold text-[#0d2b25]">
-              You&rsquo;re on the list! 🎉
+          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-signal">
+              get early access
+            </span>
+            
+            <h2 className="font-display text-4xl font-extrabold tracking-tight text-paper sm:text-5xl leading-none">
+              Claim your loop. <br />
+              <span className="italic font-normal font-serif text-signal">Join the waitlist.</span>
+            </h2>
+            
+            <p className="text-sm leading-relaxed text-paper/60 sm:text-base max-w-md mx-auto">
+              Limited spots available for creators, founders, and developers shaping the next generation of professional culture.
             </p>
-            <p className="mt-1 text-sm text-[#0d2b25]/60">
-              We&rsquo;ll be in touch — hoo knows when.
-            </p>
+
+            <div className="pt-4 max-w-md mx-auto">
+              {submitted ? (
+                <div className="rounded-2xl border border-signal/20 bg-signal/5 p-8 text-center animate-fade-in space-y-2">
+                  <p className="font-display text-lg font-bold text-paper">
+                    You&rsquo;re on the list! 🎉
+                  </p>
+                  <p className="text-sm text-paper/60">
+                    We have reserved your spot. We&rsquo;ll be in touch soon.
+                  </p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-3.5"
+                >
+                  <input
+                    type="text"
+                    required
+                    placeholder="Full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-5 py-4 text-sm text-paper placeholder:text-paper/30 focus:border-signal/50 focus:outline-none focus:ring-1 focus:ring-signal/20 transition duration-300"
+                  />
+                  <input
+                    type="email"
+                    required
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-5 py-4 text-sm text-paper placeholder:text-paper/30 focus:border-signal/50 focus:outline-none focus:ring-1 focus:ring-signal/20 transition duration-300"
+                  />
+                  
+                  <button
+                    type="submit"
+                    className="mt-1 w-full cursor-pointer rounded-xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)]"
+                  >
+                    Join The Waitlist
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="mx-auto mt-10 flex max-w-md flex-col gap-3"
-          >
-            <input
-              type="text"
-              required
-              placeholder="Full name"
-              className="w-full rounded-2xl border border-[#0d2b25]/20 bg-white px-6 py-4 text-sm text-[#0d2b25] placeholder:text-[#0d2b25]/40 focus:border-signal focus:outline-none focus:ring-2 focus:ring-signal/20"
-            />
-            <input
-              type="email"
-              required
-              placeholder="Email address"
-              className="w-full rounded-2xl border border-[#0d2b25]/20 bg-white px-6 py-4 text-sm text-[#0d2b25] placeholder:text-[#0d2b25]/40 focus:border-signal focus:outline-none focus:ring-2 focus:ring-signal/20"
-            />
-            <button
-              type="submit"
-              className="mt-1 cursor-pointer rounded-2xl bg-signal py-4 text-sm font-semibold text-ink transition hover:bg-[#0d2b25] hover:text-paper"
-            >
-              Join The Waitlist
-            </button>
-          </form>
-        )}
+        </div>
+
       </div>
     </section>
   );
