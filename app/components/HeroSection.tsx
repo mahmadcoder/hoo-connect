@@ -264,15 +264,15 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen pb-16 pt-32 md:pt-28 flex items-center bg-[#040C0A]"
+      className="relative min-h-screen pb-16 pt-32 md:pt-28 flex items-center bg-[#0A0A0F]"
     >
       {/* Background ambient glows */}
       <div className="pointer-events-none absolute left-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-signal/10 blur-[130px] animate-pulse-glow animate-hero-glow-1" style={{ animationDelay: "0s" }} />
-      <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[600px] w-[600px] rounded-full bg-emerald-500/5 blur-[160px] animate-pulse-glow animate-hero-glow-2" style={{ animationDelay: "3s" }} />
+      <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[600px] w-[600px] rounded-full bg-amber-700/5 blur-[160px] animate-pulse-glow animate-hero-glow-2" style={{ animationDelay: "3s" }} />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 md:px-10">
         {/* Hero Card Container */}
-        <div className="w-full shrink-0 overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#071512]/60 shadow-[0_24px_80px_rgba(0,0,0,0.8)] backdrop-blur-md">
+        <div className="w-full shrink-0 overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#12121A]/80 shadow-[0_24px_80px_rgba(0,0,0,0.8)] backdrop-blur-md">
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/5">
             
             {/* Left Column: Headline, Subtitle, and Waitlist Flow */}
@@ -288,7 +288,7 @@ export default function HeroSection() {
 
                 <h1 className="animate-hero-title opacity-0 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-paper sm:text-5xl lg:text-6xl">
                   It&rsquo;s not just who you know.<br />
-                  <span className="bg-gradient-to-r from-signal via-[#75ff9f] to-[#40ffcf] bg-clip-text text-transparent">It&rsquo;s how you show it.</span>
+                  <span className="bg-gradient-to-r from-signal via-amber-300 to-yellow-200 bg-clip-text text-transparent">It&rsquo;s how you show it.</span>
                 </h1>
 
                 <p className="animate-hero-desc opacity-0 max-w-md text-sm sm:text-base leading-relaxed text-paper/70">
@@ -315,7 +315,7 @@ export default function HeroSection() {
                       <button
                         type="submit"
                         disabled={isChecking || !handle}
-                        className="shrink-0 cursor-pointer rounded-xl bg-signal px-5 py-3 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)] disabled:opacity-50 disabled:pointer-events-none"
+                        className="shrink-0 cursor-pointer rounded-xl bg-signal px-5 py-3 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(201,168,76,0.5)] disabled:opacity-50 disabled:pointer-events-none"
                       >
                         Reserve
                       </button>
@@ -383,7 +383,7 @@ export default function HeroSection() {
                       <button
                         type="submit"
                         disabled={isChecking}
-                        className="w-2/3 cursor-pointer rounded-xl bg-signal py-3.5 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)] disabled:opacity-50"
+                        className="w-2/3 cursor-pointer rounded-xl bg-signal py-3.5 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(201,168,76,0.5)] disabled:opacity-50"
                       >
                         {isChecking ? "Submitting..." : `Lock in @${handle}`}
                       </button>
@@ -428,19 +428,19 @@ export default function HeroSection() {
             </div>
 
             {/* Right Column: Phone Mockup Container (Pure CSS Smartphone Mockup) */}
-            <div className="relative animate-hero-phone-wrap flex items-center justify-center p-8 bg-gradient-to-b from-transparent to-[#040C0A]/40 min-h-[460px] md:min-h-[520px]">
+            <div className="relative animate-hero-phone-wrap flex items-center justify-center p-8 bg-gradient-to-b from-transparent to-[#0A0A0F]/40 min-h-[460px] md:min-h-[520px]">
               {/* Radial glow behind phone */}
               <div className="pointer-events-none absolute bottom-1/2 translate-y-1/2 left-1/2 h-[260px] w-[260px] -translate-x-1/2 rounded-full bg-signal/10 blur-[60px]" />
               
               {/* Pure CSS smartphone frame */}
-              <div className="relative animate-hero-phone opacity-0 w-[210px] h-[420px] sm:w-[230px] sm:h-[460px] lg:w-[260px] lg:h-[520px] rounded-[2.2rem] lg:rounded-[2.5rem] border-[6px] lg:border-[8px] border-[#0d2b25] bg-[#040C0A] shadow-[0_24px_80px_rgba(0,0,0,0.9)] p-5 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 group">
+              <div className="relative animate-hero-phone opacity-0 w-[210px] h-[420px] sm:w-[230px] sm:h-[460px] lg:w-[260px] lg:h-[520px] rounded-[2.2rem] lg:rounded-[2.5rem] border-[6px] lg:border-[8px] border-[#12121A] bg-[#0A0A0F] shadow-[0_24px_80px_rgba(0,0,0,0.9)] p-5 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 group">
                 
                 {/* Phone Top Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-3.5 w-24 sm:w-28 sm:h-4 bg-[#0d2b25] rounded-b-xl z-20" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-3.5 w-24 sm:w-28 sm:h-4 bg-[#12121A] rounded-b-xl z-20" />
                 
                 {/* Glowing sphere inside phone */}
                 <div className="pointer-events-none absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-signal/15 blur-2xl" />
-
+ 
                 {/* Mock Phone Status Bar */}
                 <div className="w-full flex justify-between px-2 pt-0.5 text-[8px] text-paper/30 font-semibold select-none z-10">
                   <span>9:41</span>
@@ -451,12 +451,12 @@ export default function HeroSection() {
                     </span>
                   </div>
                 </div>
-
+ 
                 {/* Mock Profile Header */}
                 <div className="flex flex-col items-center gap-3 pt-4 w-full z-10">
                   {/* Avatar Frame */}
-                  <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full border border-signal/30 bg-gradient-to-tr from-signal/20 to-emerald-500/20 p-1 flex items-center justify-center shadow-lg">
-                    <div className="h-full w-full rounded-full bg-[#0d2b25] flex items-center justify-center text-signal font-display text-base sm:text-lg font-black uppercase">
+                  <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full border border-signal/30 bg-gradient-to-tr from-signal/20 to-violet-500/20 p-1 flex items-center justify-center shadow-lg">
+                    <div className="h-full w-full rounded-full bg-[#12121A] flex items-center justify-center text-signal font-display text-base sm:text-lg font-black uppercase">
                       {handle ? handle.slice(0, 2) : "LP"}
                     </div>
                   </div>

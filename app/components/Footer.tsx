@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[#0d2b25]/10 bg-[#f0ede6] py-12">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 text-sm text-[#0d2b25]/50 sm:flex-row sm:justify-between md:px-10">
+    <footer className="border-t border-white/5 bg-[#0A0A0F] py-12">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 text-sm text-paper/40 sm:flex-row sm:justify-between md:px-10">
         
         {/* Copyright notice */}
         <p className="font-medium text-xs select-none">
@@ -12,17 +12,17 @@ export default function Footer() {
         
         {/* Navigation & SVG Brand Links */}
         <div className="flex flex-wrap items-center justify-center gap-6">
-          <Link href="#" className="text-xs font-semibold hover:text-[#0d2b25] transition duration-300">
+          <Link href="#" className="text-xs font-semibold hover:text-paper transition duration-300">
             Privacy Policy
           </Link>
           <button
             type="button"
-            className="cursor-pointer text-xs font-semibold hover:text-[#0d2b25] transition duration-300"
+            className="cursor-pointer text-xs font-semibold hover:text-paper transition duration-300"
           >
             Cookie Settings
           </button>
           
-          <div className="h-4 w-px bg-[#0d2b25]/15 hidden sm:block" />
+          <div className="h-4 w-px bg-white/10 hidden sm:block" />
 
           {/* Social Links (Premium SVGs) */}
           <div className="flex items-center gap-4">
@@ -30,7 +30,7 @@ export default function Footer() {
               href="https://www.instagram.com/hooyouknow"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0d2b25]/5 text-[#0d2b25]/60 hover:bg-[#0d2b25]/10 hover:text-[#0d2b25] transition duration-300"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-paper/50 hover:bg-signal/10 hover:text-signal transition duration-300"
               aria-label="Instagram"
             >
               <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -41,7 +41,7 @@ export default function Footer() {
               href="https://www.tiktok.com/@hooyouknow_"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0d2b25]/5 text-[#0d2b25]/60 hover:bg-[#0d2b25]/10 hover:text-[#0d2b25] transition duration-300"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-paper/50 hover:bg-signal/10 hover:text-signal transition duration-300"
               aria-label="TikTok"
             >
               <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -52,7 +52,7 @@ export default function Footer() {
               href="https://twitter.com/hooyouknow"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0d2b25]/5 text-[#0d2b25]/60 hover:bg-[#0d2b25]/10 hover:text-[#0d2b25] transition duration-300"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-paper/50 hover:bg-signal/10 hover:text-signal transition duration-300"
               aria-label="Twitter"
             >
               <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">

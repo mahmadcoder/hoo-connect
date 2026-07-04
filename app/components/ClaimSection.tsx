@@ -149,26 +149,26 @@ export default function ClaimSection() {
   }, []);
 
   return (
-    <section className="bg-[#f0ede6] py-16 md:py-28">
+    <section className="bg-[#0A0A0F] py-16 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         
         {/* Main Card with Split Layout */}
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#071512] shadow-2xl">
+        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#12121A] shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-white/5">
             
             {/* Left: Interactive Phone Mockup Sandbox */}
-            <div className="flex items-center animate-claim-left opacity-0 justify-center p-8 sm:p-12 md:p-16 bg-[#040C0A]/40 min-h-[500px] relative">
+            <div className="flex items-center animate-claim-left opacity-0 justify-center p-8 sm:p-12 md:p-16 bg-[#080B11]/40 min-h-[500px] relative">
               <div className="pointer-events-none absolute inset-0 bg-radial-gradient from-signal/5 via-transparent to-transparent opacity-50" />
               
               {/* Styled Mock Phone */}
-              <div className="relative animate-claim-phone-scroll w-[240px] h-[460px] rounded-[2.5rem] border-[8px] border-[#0d2b25] bg-[#040C0A] shadow-2xl p-4 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 hover:shadow-[0_0_30px_rgba(157,255,196,0.15)]">
+              <div className="relative animate-claim-phone-scroll w-[240px] h-[460px] rounded-[2.5rem] border-[8px] border-[#12121A] bg-[#0A0A0F] shadow-2xl p-4 flex flex-col items-center justify-between text-center overflow-hidden transition-all duration-500 hover:border-signal/30 hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]">
                 
                 {/* Phone Top Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-28 bg-[#0d2b25] rounded-b-xl z-20" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-28 bg-[#12121A] rounded-b-xl z-20" />
                 
                 {/* Glowing sphere inside phone */}
                 <div className="pointer-events-none absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-signal/15 blur-2xl" />
-
+ 
                 {/* Mock Phone Status Bar */}
                 <div className="w-full flex justify-between px-3 pt-0.5 text-[8px] text-paper/30 font-semibold select-none z-10">
                   <span>9:41</span>
@@ -179,12 +179,12 @@ export default function ClaimSection() {
                     </span>
                   </div>
                 </div>
-
+ 
                 {/* Mock Profile Header */}
                 <div className="flex flex-col items-center gap-3 pt-6 w-full z-10">
                   {/* Avatar Frame */}
-                  <div className="h-16 w-16 rounded-full border border-signal/30 bg-gradient-to-tr from-signal/20 to-emerald-500/20 p-1 flex items-center justify-center shadow-lg">
-                    <div className="h-full w-full rounded-full bg-[#0d2b25] flex items-center justify-center text-signal font-display text-lg font-black uppercase">
+                  <div className="h-16 w-16 rounded-full border border-signal/30 bg-gradient-to-tr from-signal/20 to-violet-500/20 p-1 flex items-center justify-center shadow-lg">
+                    <div className="h-full w-full rounded-full bg-[#12121A] flex items-center justify-center text-signal font-display text-lg font-black uppercase">
                       {handle ? handle.slice(0, 2) : "L"}
                     </div>
                   </div>
@@ -227,14 +227,14 @@ export default function ClaimSection() {
             </div>
 
             {/* Right: Pitch & Input Form */}
-            <div className="flex flex-col animate-claim-right opacity-0 items-center lg:items-start justify-center gap-8 p-10 sm:p-14 lg:p-16 text-center lg:text-left bg-[#050F0D]/60">
+            <div className="flex flex-col animate-claim-right opacity-0 items-center lg:items-start justify-center gap-8 p-10 sm:p-14 lg:p-16 text-center lg:text-left bg-[#080B11]/60">
               <div className="space-y-4">
                 <span className="inline-flex rounded-full border border-signal/20 bg-signal/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-signal">
                   Check my loop.
                 </span>
                 <h2 className="font-display text-4xl font-extrabold tracking-tight text-paper sm:text-5xl leading-tight">
                   Reserve your <br className="hidden sm:inline" />
-                  <span className="text-signal bg-gradient-to-r from-signal to-emerald-400 bg-clip-text text-transparent">unique URL.</span>
+                  <span className="text-signal bg-gradient-to-r from-signal to-violet-400 bg-clip-text text-transparent">unique URL.</span>
                 </h2>
                 <p className="max-w-md text-sm leading-relaxed text-paper/60 sm:text-base">
                   One clean profile. One centralized link. Everything you build and everyone you connect with, presented elegantly.
@@ -282,7 +282,7 @@ export default function ClaimSection() {
                   <button
                     onClick={handleScrollToWaitlist}
                     disabled={!handle || isChecking || !isAvailable}
-                    className="w-full cursor-pointer rounded-2xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)] disabled:opacity-50 disabled:pointer-events-none"
+                    className="w-full cursor-pointer rounded-2xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(201,168,76,0.5)] disabled:opacity-50 disabled:pointer-events-none"
                   >
                     Claim URL &amp; Register
                   </button>

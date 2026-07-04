@@ -111,11 +111,11 @@ export default function WaitlistCTA() {
   }
 
   return (
-    <section id="waitlist-cta" className="py-20 md:py-32 bg-[#f0ede6]">
+    <section id="waitlist-cta" className="py-20 md:py-32 bg-[#0A0A0F]">
       <div className="mx-auto max-w-4xl px-6">
         
-        {/* Dark Emerald Container */}
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#071512] shadow-2xl p-8 sm:p-12 md:p-16 text-center relative">
+        {/* Dark Container */}
+        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#12121A] shadow-2xl p-8 sm:p-12 md:p-16 text-center relative">
           {/* Ambient glow */}
           <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[300px] w-[300px] rounded-full bg-signal/5 blur-[80px]" />
 
@@ -174,7 +174,7 @@ export default function WaitlistCTA() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-1 w-full cursor-pointer rounded-xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(157,255,196,0.5)] disabled:opacity-50"
+                    className="mt-1 w-full cursor-pointer rounded-xl bg-signal py-4 text-xs font-bold uppercase tracking-wider text-ink transition duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(201,168,76,0.5)] disabled:opacity-50"
                   >
                     {isSubmitting ? "Joining..." : "Join The Waitlist"}
                   </button>

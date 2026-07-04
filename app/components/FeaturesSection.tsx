@@ -140,11 +140,11 @@ export default function FeaturesSection() {
   }, []);
 
   return (
-    <section className="py-20 md:py-32 bg-[#f0ede6]">
+    <section className="py-20 md:py-32 bg-[#0A0A0F]">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         
-        {/* Deep Green Card Wrapper */}
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#071512] shadow-[0_24px_60px_rgba(0,0,0,0.15)] animate-feature-wrapper opacity-0">
+        {/* Dark Card Wrapper */}
+        <div className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#12121A] shadow-[0_24px_60px_rgba(0,0,0,0.6)] animate-feature-wrapper opacity-0">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1.3fr]">
             
             {/* Left Column: Elegant Heading and Copy */}
@@ -161,12 +161,12 @@ export default function FeaturesSection() {
             </div>
 
             {/* Center Column: Code-Rendered Custom Phone Stack Previews (No Cloned Screenshot Images!) */}
-            <div className="relative animate-feature-phones opacity-0 flex items-end justify-center px-6 py-12 lg:py-0 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#040C0A]/40 min-h-[380px] overflow-hidden select-none">
+            <div className="relative animate-feature-phones opacity-0 flex items-end justify-center px-6 py-12 lg:py-0 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#0A0A0F]/60 min-h-[380px] overflow-hidden select-none">
               {/* Radial background glow */}
               <div className="pointer-events-none absolute bottom-10 left-1/2 h-[200px] w-[200px] -translate-x-1/2 rounded-full bg-signal/5 blur-[60px]" />
               
               {/* Phone 1: Connection Feed (Left) */}
-              <div className="absolute bottom-[-20px] left-4 z-0 h-[290px] w-[130px] rounded-t-[1.5rem] border-[4px] border-white/10 bg-[#040C0A] p-2.5 flex flex-col gap-2 opacity-50 transform rotate-[-4deg] translate-y-4 hover:translate-y-0 hover:opacity-85 transition-all duration-500">
+              <div className="absolute bottom-[-20px] left-4 z-0 h-[290px] w-[130px] rounded-t-[1.5rem] border-[4px] border-white/10 bg-[#080B11] p-2.5 flex flex-col gap-2 opacity-50 transform rotate-[-4deg] translate-y-4 hover:translate-y-0 hover:opacity-85 transition-all duration-500">
                 <div className="h-2 w-12 bg-white/10 rounded-full mx-auto" />
                 <div className="text-[7px] font-bold text-signal tracking-widest uppercase text-center mt-1">Feeds</div>
                 {/* Mock feeds card */}
@@ -181,14 +181,14 @@ export default function FeaturesSection() {
               </div>
               
               {/* Phone 2: Main Profile Preview (Center) */}
-              <div className="relative z-10 h-[320px] w-[160px] rounded-t-[2rem] border-[6px] border-[#0d2b25] bg-[#040C0A] p-3 flex flex-col items-center justify-between shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-[1.03] transition-transform duration-500">
+              <div className="relative z-10 h-[320px] w-[160px] rounded-t-[2rem] border-[6px] border-[#0F172A] bg-[#080B11] p-3 flex flex-col items-center justify-between shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-[1.03] transition-transform duration-500">
                 {/* Speaker slit */}
-                <div className="h-1.5 w-14 bg-[#0d2b25] rounded-b-md absolute top-0 left-1/2 -translate-x-1/2" />
+                <div className="h-1.5 w-14 bg-[#0F172A] rounded-b-md absolute top-0 left-1/2 -translate-x-1/2" />
                 
                 {/* Profile UI mockup inside phone */}
                 <div className="w-full flex flex-col items-center gap-2 mt-4">
                   {/* Avatar circle */}
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-signal/20 to-emerald-500/20 border border-signal/30 flex items-center justify-center text-signal font-display text-xs font-black uppercase shadow-md">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-signal/20 to-violet-500/20 border border-signal/30 flex items-center justify-center text-signal font-display text-xs font-black uppercase shadow-md">
                     AS
                   </div>
                   <div className="space-y-0.5 text-center">
@@ -217,14 +217,14 @@ export default function FeaturesSection() {
               </div>
               
               {/* Phone 3: Network Stats (Right) */}
-              <div className="absolute bottom-[-20px] right-4 z-0 h-[290px] w-[130px] rounded-t-[1.5rem] border-[4px] border-white/10 bg-[#040C0A] p-2.5 flex flex-col gap-2 opacity-50 transform rotate-[4deg] translate-y-4 hover:translate-y-0 hover:opacity-85 transition-all duration-500">
+              <div className="absolute bottom-[-20px] right-4 z-0 h-[290px] w-[130px] rounded-t-[1.5rem] border-[4px] border-white/10 bg-[#080B11] p-2.5 flex flex-col gap-2 opacity-50 transform rotate-[4deg] translate-y-4 hover:translate-y-0 hover:opacity-85 transition-all duration-500">
                 <div className="h-2 w-12 bg-white/10 rounded-full mx-auto" />
                 <div className="text-[7px] font-bold text-signal tracking-widest uppercase text-center mt-1">Network</div>
                 
                 {/* CSS Connective node illustration */}
                 <div className="relative h-16 w-full rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center overflow-hidden">
                   <div className="absolute h-1.5 w-1.5 rounded-full bg-signal left-4 top-4" />
-                  <div className="absolute h-1.5 w-1.5 rounded-full bg-emerald-400 right-4 bottom-4" />
+                  <div className="absolute h-1.5 w-1.5 rounded-full bg-violet-400 right-4 bottom-4" />
                   <div className="absolute h-2 w-2 rounded-full bg-paper left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
                   <svg className="absolute inset-0 h-full w-full stroke-signal/30 stroke-1" viewBox="0 0 100 60">
                     <line x1="20" y1="20" x2="50" y2="30" />
@@ -239,7 +239,7 @@ export default function FeaturesSection() {
             </div>
 
             {/* Right Column: Premium Bento Grid */}
-            <div className="p-8 sm:p-12 flex flex-col justify-center bg-[#050F0D]/60">
+            <div className="p-8 sm:p-12 flex flex-col justify-center bg-[#0D0B14]/60">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {features.map((f, i) => (
                   <div

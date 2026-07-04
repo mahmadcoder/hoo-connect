@@ -35,7 +35,7 @@ export default function Header() {
     <header
       className={`fixed z-50 animate-header opacity-0 transition-all duration-500 ${
         scrolled
-          ? "top-4 left-4 right-4 border border-white/10 bg-[#040C0A]/85 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-md rounded-2xl"
+          ? "top-4 left-4 right-4 border border-white/10 bg-[#0A0A0F]/90 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-md rounded-2xl"
           : "top-0 left-0 right-0 bg-transparent"
       }`}
     >
@@ -58,8 +58,8 @@ export default function Header() {
           onClick={handleScrollToWaitlist}
           className={`rounded-full border text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
             scrolled
-              ? "border-signal/30 bg-signal/5 px-5 py-2.5 text-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_15px_rgba(157,255,196,0.4)]"
-              : "border-white/20 bg-white/5 px-6 py-3 text-paper hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_20px_rgba(157,255,196,0.3)]"
+              ? "border-signal/30 bg-signal/5 px-5 py-2.5 text-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_15px_rgba(201,168,76,0.4)]"
+              : "border-white/20 bg-white/5 px-6 py-3 text-paper hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_0_20px_rgba(201,168,76,0.3)]"
           }`}
         >
           Join The Waitlist

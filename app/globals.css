@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
-/* ── Design tokens ────────────────────────────────────────────── */
 @theme inline {
-  /* Colors */
-  --color-ink:          #040C0A;
-  --color-paper:        #F3F1EC;
-  --color-signal:       #9DFFC4;
-  --color-signal-dim:   #2D7F54;
-  --color-graphite:     #121D1A;
-  --color-mist:         #6E827B;
+  /* Colors — Deep Purple × Gold palette */
+  --color-ink:          #0A0A0F;
+  --color-paper:        #F5F0E8;
+  --color-signal:       #C9A84C;
+  --color-signal-dim:   #8B6914;
+  --color-graphite:     #1A1520;
+  --color-mist:         #7C7488;
 
   /* Fonts – populated via CSS variables set in layout */
   --font-display: var(--font-space-grotesk), sans-serif;
@@ -88,6 +87,6 @@ body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-signal-dim);
+  background: var(--color-signal);
 }
 

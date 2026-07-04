@@ -108,11 +108,11 @@ export default function MovementSection() {
   }, []);
 
   return (
-    <section className="bg-[#f0ede6] py-16 pb-28 md:py-24 md:pb-40">
+    <section className="bg-[#0A0A0F] py-16 pb-28 md:py-24 md:pb-40">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         
         {/* Big Card Wrapper */}
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#071512] shadow-2xl border border-white/5 animate-movement-grid opacity-0">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#12121A] shadow-2xl border border-white/5 animate-movement-grid opacity-0">
           
           {/* Three-column photo strip */}
           <div className="grid grid-cols-3 divide-x divide-white/5 opacity-55">
@@ -146,7 +146,7 @@ export default function MovementSection() {
           </div>
 
           {/* Elegant Text Overlay (Frosted glass & typographic alignment) */}
-          <div className="absolute inset-0 flex items-center justify-center bg-[#040C0A]/40 backdrop-blur-[2px] p-6">
+          <div className="absolute inset-0 flex items-center justify-center bg-[#080B11]/40 backdrop-blur-[2px] p-6">
             <div className="text-center space-y-4">
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-signal bg-signal/10 border border-signal/20 px-3 py-1 rounded-full">
                 our manifesto
@@ -161,12 +161,12 @@ export default function MovementSection() {
 
         {/* Sub-copy below the card */}
         <div className="mx-auto mt-20 max-w-3xl text-center space-y-6 animate-movement-sub opacity-0">
-          <h3 className="font-display text-2xl font-bold leading-snug tracking-tight text-[#0d2b25] sm:text-3xl md:text-4xl">
+          <h3 className="font-display text-2xl font-bold leading-snug tracking-tight text-paper sm:text-3xl md:text-4xl">
             Careers don&rsquo;t look like they used to. <br className="hidden sm:inline" />
             Neither should your professional profile.
           </h3>
-          <p className="mt-4 text-sm leading-relaxed text-[#0d2b25]/75 sm:text-base max-w-xl mx-auto">
-            Traditional professional networks haven&rsquo;t caught up to how modern creators, freelancers, and builders work. <strong className="font-semibold text-[#0d2b25]">Loop</strong> is built from the ground up for that shift.
+          <p className="mt-4 text-sm leading-relaxed text-paper/60 sm:text-base max-w-xl mx-auto">
+            Traditional professional networks haven&rsquo;t caught up to how modern creators, freelancers, and builders work. <strong className="font-semibold text-paper">Loop</strong> is built from the ground up for that shift.
           </p>
         </div>
         

@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
           <title>Welcome to loop.</title>
           <style>
             body {
-              background-color: #040C0A;
+              background-color: #080B11;
               color: #f3f4f6;
               font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
               margin: 0;
@@ -56,14 +56,14 @@ export async function POST(req: NextRequest) {
             .wrapper {
               width: 100%;
               table-layout: fixed;
-              background-color: #040C0A;
+              background-color: #080B11;
               padding: 40px 20px;
             }
             .container {
               max-width: 600px;
               margin: 0 auto;
-              background-color: #071512;
-              border: 1px solid #143e35;
+              background-color: #141724;
+              border: 1px solid #1E1B4B;
               border-radius: 24px;
               overflow: hidden;
             }
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
             .logo {
               font-size: 28px;
               font-weight: 800;
-              color: #9DFFC4;
+              color: #8B5CF6;
               text-decoration: none;
               letter-spacing: -0.03em;
             }
@@ -96,8 +96,8 @@ export async function POST(req: NextRequest) {
               margin: 0 0 20px 0;
             }
             .card {
-              background-color: rgba(157, 255, 196, 0.04);
-              border: 1px solid rgba(157, 255, 196, 0.15);
+              background-color: rgba(139, 92, 246, 0.04);
+              border: 1px solid rgba(139, 92, 246, 0.15);
               border-radius: 16px;
               padding: 24px;
               margin-bottom: 24px;
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
             .card-title {
               font-size: 13px;
               font-weight: 700;
-              color: #9DFFC4;
+              color: #8B5CF6;
               text-transform: uppercase;
               letter-spacing: 0.1em;
               margin-bottom: 12px;
@@ -127,8 +127,8 @@ export async function POST(req: NextRequest) {
             }
             .handle-badge {
               font-family: monospace;
-              background-color: #9DFFC4;
-              color: #040C0A;
+              background-color: #8B5CF6;
+              color: #080B11;
               padding: 4px 8px;
               border-radius: 6px;
               font-weight: bold;
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
             .footer {
               padding: 20px 40px 40px 40px;
               text-align: center;
-              border-top: 1px solid #143e35;
+              border-top: 1px solid #1E1B4B;
               font-size: 12px;
               color: #4b5563;
             }
@@ -164,7 +164,7 @@ export async function POST(req: NextRequest) {
                   </div>
                   <div class="detail-row">
                     <span class="label">Status:</span>
-                    <span class="value" style="color: #9DFFC4;">Early Access Guaranteed</span>
+                    <span class="value" style="color: #8B5CF6;">Early Access Guaranteed</span>
                   </div>
                 </div>
                 
@@ -197,7 +197,7 @@ export async function POST(req: NextRequest) {
           <style>
             body { font-family: sans-serif; background-color: #f4f4f5; padding: 20px; color: #1f2937; }
             .container { max-width: 500px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb; }
-            h2 { margin-top: 0; color: #10b981; }
+            h2 { margin-top: 0; color: #8B5CF6; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; }
             td { padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
             .label { font-weight: bold; color: #4b5563; }
